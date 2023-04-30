@@ -26,6 +26,18 @@
             "args": [
                 "${fileBasenameNoExtension}"
             ]
+        },
+        {
+            "label": "submit_atcoder",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "type": "shell",
+            "command": "${workspaceFolder}/bin/submit_atcoder",
+            "args": [
+                "${fileBasenameNoExtension}"
+            ]
         }
     ]
 }
