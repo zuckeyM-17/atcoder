@@ -22,6 +22,10 @@ func main() {
 
 	dp := make([]int, n+1)
 	dp[1] = 0
+	dp[2] = abs(h[2] - h[1])
+	for i := 3; i <= n; i++ {
+		dp[i] = min(dp[i-1]+abs(h[i]-h[i-1]), dp[i-2]+abs(h[i]-h[i-2]))
+	}
 
 	fmt.Fprintln(out, dp[n])
 }
@@ -31,4 +35,12 @@ func min(a, b int) int {
 		return a
 	}
 	return b
+}
+
+// 引数にとった整数の絶対値を返す
+func abs(num int) int {
+	if num < 0 {
+		return -num
+	}
+	return num
 }
