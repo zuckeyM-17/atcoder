@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 )
 
 func main() {
@@ -30,7 +31,34 @@ func main() {
 		dp[i] = min(dp[i-1]+a[i], dp[i-2]+b[i])
 	}
 
-	fmt.Fprintln(out, dp[n])
+	rooms := []int{}
+	i := n
+	for {
+		rooms = append(rooms, i)
+		if i == 1 {
+			break
+		}
+
+		if dp[i-1]+a[i] == dp[i] {
+			i -= 1
+		} else {
+			i -= 2
+		}
+	}
+
+	sort.Slice(rooms, func(i, j int) bool {
+		return rooms[i] < rooms[j]
+	})
+
+	fmt.Fprintln(out, len(rooms))
+	for i := 0; i < len(rooms); i++ {
+		fmt.Fprint(out, rooms[i])
+		if i == len(rooms)-1 {
+			fmt.Fprintln(out)
+		} else {
+			fmt.Fprint(out, " ")
+		}
+	}
 }
 
 func min(a, b int) int {
