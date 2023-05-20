@@ -11,8 +11,15 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 	defer out.Flush()
 
-	var n int
-	fmt.Fscan(in, &n)
+	var a, b int
+	fmt.Fscan(in, &a, &b)
 
-	fmt.Fprintln(out)
+	var ans int
+	if a%b > 0 {
+		ans = a/b + 1
+	} else {
+		ans = a / b
+	}
+
+	fmt.Fprintln(out, ans)
 }
