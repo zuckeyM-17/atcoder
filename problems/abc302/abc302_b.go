@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -17,65 +16,33 @@ func main() {
 	var h, w int
 	fmt.Fscan(in, &h, &w)
 
-	s := make([]string, h+1)
-	for i := 1; i <= h; i++ {
+	s := make([]string, h)
+	for i := 0; i < h; i++ {
 		fmt.Fscan(in, &s[i])
-
-		if idx := strings.Index(s[i], target); idx != -1 {
-			fmt.Fprintf(out, "%d %d\n", i, idx+1)
-			fmt.Fprintf(out, "%d %d\n", i, idx+2)
-			fmt.Fprintf(out, "%d %d\n", i, idx+3)
-			fmt.Fprintf(out, "%d %d\n", i, idx+4)
-			fmt.Fprintf(out, "%d %d\n", i, idx+5)
-			return
-		}
-
-		if idx := strings.Index(Reverse(s[i]), target); idx != -1 {
-			fmt.Fprintf(out, "%d %d\n", i, idx+1)
-			fmt.Fprintf(out, "%d %d\n", i, idx)
-			fmt.Fprintf(out, "%d %d\n", i, idx-1)
-			fmt.Fprintf(out, "%d %d\n", i, idx-2)
-			fmt.Fprintf(out, "%d %d\n", i, idx-3)
-			return
-		}
 	}
 
-	columns := make([]string, w+1)
-	for i := 1; i <= w; i++ {
-		var runes []rune
-		for j := 1; j <= h; j++ {
-			runes = append(runes, rune(s[j][i-1]))
-		}
-		columns[i] = string(runes)
-	}
+	dh := []int{-1, -1, -1, 0, 1, 1, 1, 0}
+	dw := []int{-1, 0, 1, 1, 1, 0, -1, -1}
 
-	for i := 1; i <= w; i++ {
-		if idx := strings.Index(columns[i], target); idx != -1 {
-			fmt.Fprintf(out, "%d %d\n", idx+1, i)
-			fmt.Fprintf(out, "%d %d\n", idx+2, i)
-			fmt.Fprintf(out, "%d %d\n", idx+3, i)
-			fmt.Fprintf(out, "%d %d\n", idx+4, i)
-			fmt.Fprintf(out, "%d %d\n", idx+5, i)
-			return
-		}
-
-		if idx := strings.Index(Reverse(columns[i]), target); idx != -1 {
-			fmt.Fprintf(out, "%d %d\n", h-idx, i)
-			fmt.Fprintf(out, "%d %d\n", h-idx-1, i)
-			fmt.Fprintf(out, "%d %d\n", h-idx-2, i)
-			fmt.Fprintf(out, "%d %d\n", h-idx-3, i)
-			fmt.Fprintf(out, "%d %d\n", h-idx-4, i)
-			return
+	for i := 0; i < h; i++ {
+		for j := 0; j < w; j++ {
+			for k := 0; k < 8; k++ {
+				str := ""
+				for t := 0; t < 5; t++ {
+					hi, wi := i+t*dh[k], j+t*dw[k]
+					if hi < 0 || hi >= h || wi < 0 || wi >= w {
+						break
+					}
+					str += string(s[hi][wi])
+				}
+				if str == target {
+					for t := 0; t < 5; t++ {
+						hi, wi := i+t*dh[k]+1, j+t*dw[k]+1
+						fmt.Fprintln(out, hi, wi)
+					}
+					return
+				}
+			}
 		}
 	}
-
-	fmt.Fprintln(out)
-}
-
-func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }
