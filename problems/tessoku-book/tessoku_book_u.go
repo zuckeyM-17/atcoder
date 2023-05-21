@@ -14,28 +14,24 @@ func main() {
 	var n int
 	fmt.Fscan(in, &n)
 
-	fmt.Fprintln(out, n)
-
-	p, a := make([]int, n+1), make([]int, n+1)
+	p, a := make([]int, n+2), make([]int, n+2)
 	for i := 1; i <= n; i++ {
 		fmt.Fscan(in, &p[i])
 		fmt.Fscan(in, &a[i])
 	}
 
-	dp := make([][]int, n+1)
-	for i := 0; i <= n; i++ {
-		dp[i] = make([]int, n+1)
-	}
-	for LEN := n - 2; LEN >= 0; LEN-- {
-		for l := 1; l <= n-LEN; l++ {
-			fmt.Fprintln(out, dp, l, LEN)
-			r := l + LEN
+	dp := [2009][2009]int{}
 
-			var score1, score2 int
+	dp[1][n] = 0
+
+	for length := n - 2; length >= 0; length-- {
+		for l := 1; l <= n-length; l++ {
+			r := l + length
+
+			score1, score2 := 0, 0
 			if l <= p[l-1] && p[l-1] <= r {
 				score1 = a[l-1]
 			}
-
 			if l <= p[r+1] && p[r+1] <= r {
 				score2 = a[r+1]
 			}
@@ -45,10 +41,11 @@ func main() {
 			} else if r == n {
 				dp[l][r] = dp[l-1][r] + score1
 			} else {
-				dp[l][r] = max(dp[l-1][r]+score1, dp[l][r+1]+score2)
+				dp[l][r] = max(dp[l][r+1]+score2, dp[l-1][r]+score1)
 			}
 		}
 	}
+
 	ans := 0
 	for i := 1; i <= n; i++ {
 		ans = max(ans, dp[i][i])
