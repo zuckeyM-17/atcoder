@@ -14,7 +14,7 @@ func main() {
 	var n int
 	fmt.Fscan(in, &n)
 
-	a, b := make([]int, n+1), make([]int, n+1)
+	a, b := make([]int, n+2), make([]int, n+2)
 
 	for i := 2; i <= n; i++ {
 		fmt.Fscan(in, &a[i])
@@ -23,11 +23,14 @@ func main() {
 		fmt.Fscan(in, &b[i])
 	}
 
-	dp := make([]int, n+1)
+	dp := make([]int, n+2)
+	for i := 0; i <= n+1; i++ {
+		dp[i] = 1 << 60
+	}
 	dp[1] = 0
-	dp[2] = a[2]
-	for i := 3; i <= n; i++ {
-		dp[i] = min(dp[i-1]+a[i], dp[i-2]+b[i])
+	for i := 1; i <= n-1; i++ {
+		dp[i+1] = min(dp[i]+a[i+1], dp[i+1])
+		dp[i+2] = min(dp[i]+b[i+2], dp[i+2])
 	}
 
 	fmt.Fprintln(out, dp[n])
