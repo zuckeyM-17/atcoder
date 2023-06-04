@@ -20,22 +20,15 @@ func main() {
 		fmt.Fscan(in, &a[i])
 	}
 
-	dp := make([]int, n)
+	l := []int{}
 	for i := 0; i < n; i++ {
-		dp[i] = 1
-		for j := 0; j < i; j++ {
-			if a[j] < a[i] {
-				dp[i] = max(dp[i], dp[j]+1)
-			}
+		pos := sort.SearchInts(l, a[i])
+		if pos == len(l) {
+			l = append(l, a[i])
+		} else {
+			l[pos] = a[i]
 		}
 	}
-	sort.Ints(dp)
-	fmt.Fprintln(out, dp[len(dp)-1])
-}
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+	fmt.Fprintln(out, len(l))
 }
