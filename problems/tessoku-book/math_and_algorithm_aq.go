@@ -14,20 +14,13 @@ func main() {
 	var a, b int
 	fmt.Fscan(in, &a, &b)
 
-	ans := 1
-	cnt := 0
-	for b > 1 {
-		b /= 2
-		cnt++
-	}
-
-	for i := 0; i < c; i++ {
-		ans *= square
-		ans %= 1000000007
-	}
-	if r > 0 {
-		ans *= a
-		ans %= 1000000007
+	p, ans := a, 1
+	for i := 0; i < 30; i++ {
+		w := 1 << i
+		if (b/w)%2 == 1 {
+			ans = (ans * p) % 1000000007
+		}
+		p = (p * p) % 1000000007
 	}
 
 	fmt.Fprintln(out, ans)
