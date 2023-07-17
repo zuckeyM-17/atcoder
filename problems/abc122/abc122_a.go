@@ -11,8 +11,15 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 	defer out.Flush()
 
-	var n int
-	fmt.Fscan(in, &n)
+	var b string
+	fmt.Fscan(in, &b)
 
-	fmt.Fprintln(out)
+	m := map[string]string{
+		"A": "T",
+		"T": "A",
+		"C": "G",
+		"G": "C",
+	}
+
+	fmt.Fprintln(out, m[b])
 }
