@@ -15,42 +15,58 @@ func main() {
 	fmt.Fscan(in, &n, &m)
 
 	l := make([]int, n)
-	sum := 0
+
 	for i := 0; i < n; i++ {
 		fmt.Fscan(in, &l[i])
-		sum += l[i]
 	}
 
-	w := sum / m
+	left := max(l...) - 1
+	right := sum(l...) + len(l) - 1
 
 	for {
-		rows := m
-		cur := 0
-		for i := 0; i < n; i++ {
-			cur += l[i]
-
-			if i == n-1 && cur <= w {
-				break
-			}
-
-			if cur > w {
-				rows -= 1
-				cur = l[i]
-			} else if cur == w {
-				rows -= 1
-				cur = 0
-			} else {
-				cur += 1
-			}
-			if rows == 0 {
-				break
-			}
-		}
-		if rows > 0 {
+		mid := (left + right) / 2
+		if mid == left || mid == right {
 			break
 		}
-		w += 1
+
+		rows := 1
+		length := 0
+
+		for i, word := range l {
+			length = length + word
+			if i > 0 {
+				length++
+			}
+			if length > mid {
+				rows++
+				length = word
+			}
+		}
+
+		if rows > m {
+			left = mid
+		} else {
+			right = mid
+		}
 	}
 
-	fmt.Fprintln(out, w)
+	fmt.Fprintln(out, right)
+}
+
+func max(arr ...int) int {
+	m := arr[0]
+	for _, v := range arr {
+		if m < v {
+			m = v
+		}
+	}
+	return m
+}
+
+func sum(arr ...int) int {
+	s := 0
+	for _, v := range arr {
+		s += v
+	}
+	return s
 }
