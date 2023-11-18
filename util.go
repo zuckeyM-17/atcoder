@@ -1,6 +1,8 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 func min(values ...int) int {
 	ret := values[0]
