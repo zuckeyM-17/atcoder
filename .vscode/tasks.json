@@ -27,7 +27,8 @@
             "command": "${workspaceFolder}/bin/test_atcoder_input_txt",
             "args": [
                 "${relativeFileDirname}",
-                "${fileBasenameNoExtension}"
+                "${fileBasenameNoExtension}",
+                "${fileExtname}"
             ]
         },
         {
