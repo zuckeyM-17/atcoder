@@ -13,7 +13,8 @@
             "command": "${workspaceFolder}/bin/test_atcoder_sample",
             "args": [
                 "${relativeFileDirname}",
-                "${fileBasenameNoExtension}"
+                "${fileBasenameNoExtension}",
+                "${fileExtname}"
             ]
         },
         {

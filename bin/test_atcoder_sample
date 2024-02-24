@@ -4,9 +4,16 @@ file_dir=$1
 base_dir=${file_dir/problems\//}
 problem_name=$2
 test_dir=test/${base_dir}/${problem_name}
+ext_name=$3
 
 if [ ! -e ${test_dir} ]; then
     oj dl -d ${test_dir} https://atcoder.jp/contests/${base_dir}/tasks/${problem_name//-/_}
 fi
 
-oj test -c "go run ./problems/${base_dir}/${problem_name}.go" -d ${test_dir}
+if [ $ext_name = ".go" ]; then
+    oj test -c "go run ./problems/${base_dir}/${problem_name}.go" -d ${test_dir}
+elif [ $ext_name = ".rb" ]; then
+    oj test -c "ruby ./problems/${base_dir}/${problem_name}.rb" -d ${test_dir}
+else
+    echo "Invalid extension name"
+fi
