@@ -3,5 +3,6 @@
 file_dir=$1
 base_dir=${file_dir/problems\//}
 problem_name=$2
+ext_name=$3
 
-oj s https://atcoder.jp/contests/${base_dir}/tasks/${problem_name} ./problems/${base_dir}/${problem_name}.go
+oj s https://atcoder.jp/contests/${base_dir}/tasks/${problem_name} ./problems/${base_dir}/${problem_name}.${ext_name}

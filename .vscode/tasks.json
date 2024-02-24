@@ -40,7 +40,8 @@
             "command": "${workspaceFolder}/bin/submit_atcoder",
             "args": [
                 "${relativeFileDirname}",
-                "${fileBasenameNoExtension}"
+                "${fileBasenameNoExtension}",
+                "${fileExtname}"
             ]
         }
     ]
