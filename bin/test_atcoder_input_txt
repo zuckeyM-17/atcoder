@@ -4,4 +4,11 @@ file_dir=$1
 base_dir=${file_dir/problems\//}
 problem_name=$2
 ext_name=$3
-go run ./problems/${base_dir}/${problem_name}${ext_name} < input.txt
+
+if [ $ext_name = ".go" ]; then
+    go run ./problems/${base_dir}/${problem_name}${ext_name} < input.txt
+elif [ $ext_name = ".rb" ]; then
+    ruby ./problems/${base_dir}/${problem_name}.rb < input.txt
+else
+    echo "Invalid extension name"
+fi
