@@ -8,36 +8,39 @@ end
 
 ss = []
 t = gets.chomp
+tl = t.size
 n = geti
 
-n.times do |i|
-  a, *sa = gets.chomp.split(" ")
-  sa << ""
-  ss << sa
+SUPER_BIG = 10**9 + 7
+
+dp = []
+(n+1).times do |i|
+  dp[i] = []
+  (tl + 1).times do |j|
+    dp[i][j] = SUPER_BIG
+  end
 end
 
-c = {
-  "" => 0
-}
-ss.each do |s|
-  h = Hash.new(0)
-  s.each do |a|
-    c.keys.each do |b|
-      if b+a == t[0..(b+a).size-1]
-        plus = a == "" ? 0 : 1
-        if h[b+a] != 0
-          h[b+a] = [h[b+a], c[b]+plus].min
-        else
-          h[b+a] = c[b]+plus
-        end
+dp[0][0] = 0
+
+n.times do |i|
+  (tl + 1).times { |j| dp[i+1][j] = dp[i][j] }
+
+  a, *ss = gets.chomp.split(" ")
+  ss.each do |s|
+    sl = s.size
+    tl.times do |j|
+      break if j + sl > tl
+
+      if t[j, sl] == s
+        dp[i+1][j+sl] = [dp[i+1][j+sl], dp[i][j] + 1].min
       end
     end
   end
-  c = h
 end
 
-if c[t] != 0
-  puts c[t]
-else
-  puts -1
+if dp[n][tl] == SUPER_BIG
+  dp[n][tl] = -1
 end
+
+puts dp[n][tl]
