@@ -1,7 +1,3 @@
-def geti
-  gets.chomp.to_i
-end
+require 'bigdecimal'
 
-def getis
-  gets.chomp.split(" ").map(&:to_i)
-end
+puts (BigDecimal(gets.chomp) / 10).ceil
