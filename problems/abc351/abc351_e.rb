@@ -5,4 +5,3 @@ end
 def getis
   gets.chomp.split(" ").map(&:to_i)
 end
-
